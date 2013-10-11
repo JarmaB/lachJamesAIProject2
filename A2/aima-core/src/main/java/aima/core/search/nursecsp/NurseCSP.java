@@ -41,7 +41,7 @@ public class NurseCSP extends CSP {
 	public int period;
 	public int maxShifts;
 	public static int numNurses;
-	private static Variable[][] variables = new Variable[numNurses][7];
+	//private static Variable[][] variables = new Variable[numNurses][7];
 
 	/**
 	 * Returns the principle states and territories of Australia as a list of
@@ -50,10 +50,11 @@ public class NurseCSP extends CSP {
 	 * @return the principle states and territories of Australia as a list of
 	 *         variables.
 	 */
-	private static Variable[][] collectVariables() {
+	private static List<Variable> collectVariables() {
+		List<Variable> variables = new ArrayList<Variable>();
 		for (int i = 0; i< numNurses; i++){
 			for(int day = 0; day < 7; day++){
-			variables[i][day] = new Variable("Nurse" + i);
+			 variables.add(new Variable("Nurse" + i + "_" + day));
 			}
 		}
 		return variables;
@@ -67,10 +68,31 @@ public class NurseCSP extends CSP {
 		super(collectVariables());
 
 		Domain shiftType = new Domain(new Object[] { DAY, NIGHT, OFF });
-
+		this.period = period;
+		if(this.period == 7)
+			this.maxShifts = 5;
+		else if (this.period == 14)
+			this.maxShifts = 10;
+		
+		
 		for (Variable var : getVariables())
 			setDomain(var, shiftType);
 		
+		// none of the variables are equal
+		for(int i=0; i < getVariables().size() -1; i++){
+			for(int j=1; j < getVariables().size(); j++){
+				addConstraint(new NotEqualConstraint(getVariables().get(i), getVariables().get(j)));
+			}
+		}
+		// add more constraints now?
+		
+		
+		
+		
+		
+		
+		
+		/*
 		// all rows have unique variables
 		for (int i = 0; i< numNurses; i++){
 			for(int day = 0; day < 6; day++){ 
@@ -88,7 +110,9 @@ public class NurseCSP extends CSP {
 			addConstraint(new NotEqualConstraint(variables[7][day], variables[0][day])); 	// the first and last variables in this column 
 			// are also unique
 		}
+		*/
 		
+		/*
 		addConstraint(new NotEqualConstraint(WA, NT));
 		addConstraint(new NotEqualConstraint(WA, SA));
 		addConstraint(new NotEqualConstraint(NT, SA));
@@ -98,5 +122,6 @@ public class NurseCSP extends CSP {
 		addConstraint(new NotEqualConstraint(SA, V));
 		addConstraint(new NotEqualConstraint(Q, NSW));
 		addConstraint(new NotEqualConstraint(NSW, V));
+		*/
 	}
 }

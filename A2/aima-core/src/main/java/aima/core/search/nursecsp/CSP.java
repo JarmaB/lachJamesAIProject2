@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class CSP {
 
-	private Variable[][] variables;
-	private Domain[][] domains;
+	private List<Variable> variables;
+	private List<Domain> domains;
 	private List<Constraint> constraints;
 
 	/** Lookup, which maps a variable to its index in the list of variables. */
@@ -36,21 +36,19 @@ public class CSP {
 	}
 
 	/** Creates a new CSP for a fixed set of variables. */
-	public CSP(Variable[][] vars, int numNurses) {
-		variables = new Variable[numNurses][7];
-		domains = new Domain[numNurses][7];
+	public CSP(List<Variable> vars) {
+		variables = new ArrayList<Variable>(vars.size());
+		domains = new ArrayList<Domain>(vars.size());
 		constraints = new ArrayList<Constraint>();
 		varIndexHash = new Hashtable<Variable, Integer>();
 		cnet = new Hashtable<Variable, List<Constraint>>();
 		Domain emptyDomain = new Domain(new ArrayList<Object>(0));
 		int index = 0;
-		for(int i = 0; i < 7; i++){
-			for (int day = 0; day < 7; day++) {
-				variables[i][day] = new Variable("Nurse" + i);
-				domains[i][day] = emptyDomain;
-				varIndexHash.put(variables[i][day], index++);
-				cnet.put(variables[i][day], new ArrayList<Constraint>());
-			}
+		for (Variable var : vars) {
+			variables.add(var);
+			domains.add(emptyDomain);
+			varIndexHash.put(var, index++);
+			cnet.put(var, new ArrayList<Constraint>());
 		}
 	}
 

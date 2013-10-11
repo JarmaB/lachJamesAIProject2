@@ -133,7 +133,7 @@ public class NurseRosteringApp extends SimpleAgentApp {
 				break;
 			case 1: // period 14days
 				csp = new NurseCSP(14);
-				csp.setDomain(NurseCSP.NSW, new Domain(new Object[]{NurseCSP.BLUE}));
+				//csp.setDomain(NurseCSP.NSW, new Domain(new Object[]{NurseCSP.BLUE}));
 				break;
 			}
 			view.clearMappings();
