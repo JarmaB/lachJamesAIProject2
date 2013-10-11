@@ -2,15 +2,15 @@ package aima.gui.applications.search.nurse;
 
 import java.awt.Color;
 
-import aima.core.search.csp.Assignment;
-import aima.core.search.csp.BacktrackingStrategy;
-import aima.core.search.csp.CSP;
-import aima.core.search.csp.CSPStateListener;
-import aima.core.search.csp.Domain;
-import aima.core.search.csp.ImprovedBacktrackingStrategy;
-import aima.core.search.csp.MapCSP;
-import aima.core.search.csp.MinConflictsStrategy;
-import aima.core.search.csp.SolutionStrategy;
+import aima.core.search.nursecsp.Assignment;
+import aima.core.search.nursecsp.BacktrackingStrategy;
+import aima.core.search.nursecsp.CSP;
+import aima.core.search.nursecsp.CSPStateListener;
+import aima.core.search.nursecsp.Domain;
+import aima.core.search.nursecsp.ImprovedBacktrackingStrategy;
+import aima.core.search.nursecsp.NurseCSP;
+import aima.core.search.nursecsp.MinConflictsStrategy;
+import aima.core.search.nursecsp.SolutionStrategy;
 import aima.core.util.datastructure.FIFOQueue;
 import aima.gui.framework.AgentAppController;
 import aima.gui.framework.AgentAppEnvironmentView;

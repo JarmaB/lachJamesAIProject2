@@ -9,10 +9,10 @@ import java.util.List;
 import aima.core.agent.Action;
 import aima.core.agent.Agent;
 import aima.core.agent.EnvironmentState;
-import aima.core.search.csp.Assignment;
-import aima.core.search.csp.CSP;
-import aima.core.search.csp.Constraint;
-import aima.core.search.csp.Variable;
+import aima.core.search.nursecsp.Assignment;
+import aima.core.search.nursecsp.CSP;
+import aima.core.search.nursecsp.Constraint;
+import aima.core.search.nursecsp.Variable;
 import aima.gui.framework.EmptyEnvironmentView;
 
 /**

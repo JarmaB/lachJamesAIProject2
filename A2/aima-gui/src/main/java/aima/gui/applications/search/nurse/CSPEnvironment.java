@@ -5,8 +5,8 @@ import aima.core.agent.Agent;
 import aima.core.agent.EnvironmentState;
 import aima.core.agent.Percept;
 import aima.core.agent.impl.AbstractEnvironment;
-import aima.core.search.csp.Assignment;
-import aima.core.search.csp.CSP;
+import aima.core.search.nursecsp.Assignment;
+import aima.core.search.nursecsp.CSP;
 
 /**
  * Simple environment which maintains a CSP and an assignment. The state
