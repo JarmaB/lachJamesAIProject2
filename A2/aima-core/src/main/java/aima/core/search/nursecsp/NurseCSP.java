@@ -40,8 +40,8 @@ public class NurseCSP extends CSP {
 	// data
 	public int period;
 	public int maxShifts;
-	public int numNurses;
-	
+	public static int numNurses;
+	private static Variable[][] variables = new Variable[numNurses][7];
 
 	/**
 	 * Returns the principle states and territories of Australia as a list of
@@ -50,15 +50,12 @@ public class NurseCSP extends CSP {
 	 * @return the principle states and territories of Australia as a list of
 	 *         variables.
 	 */
-	private static List<Variable> collectVariables() {
-		List<Variable> variables = new ArrayList<Variable>();
-		variables.add(NSW);
-		variables.add(WA);
-		variables.add(NT);
-		variables.add(Q);
-		variables.add(SA);
-		variables.add(V);
-		variables.add(T);
+	private static Variable[][] collectVariables() {
+		for (int i = 0; i< numNurses; i++){
+			for(int day = 0; day < 7; day++){
+			variables[i][day] = new Variable("Nurse" + i);
+			}
+		}
 		return variables;
 	}
 
@@ -73,7 +70,25 @@ public class NurseCSP extends CSP {
 
 		for (Variable var : getVariables())
 			setDomain(var, shiftType);
+		
+		// all rows have unique variables
+		for (int i = 0; i< numNurses; i++){
+			for(int day = 0; day < 6; day++){ 
+				addConstraint(new NotEqualConstraint(variables[i][day], variables[i][day+1])); // all cells in this row are unique variables
 
+			}
+			addConstraint(new NotEqualConstraint(variables[i][7], variables[i][0])); 	// the first and last variables in this row 
+																						// are also unique
+		}
+		// all columns have unique variables
+		for(int day = 0; day < 7; day++) {
+			for (int i = 0; i < numNurses - 1; i++){
+				addConstraint(new NotEqualConstraint(variables[i][day], variables[i+1][day])); 	// all variables in this column are unique 
+			}
+			addConstraint(new NotEqualConstraint(variables[7][day], variables[0][day])); 	// the first and last variables in this column 
+			// are also unique
+		}
+		
 		addConstraint(new NotEqualConstraint(WA, NT));
 		addConstraint(new NotEqualConstraint(WA, SA));
 		addConstraint(new NotEqualConstraint(NT, SA));
