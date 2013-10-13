@@ -14,6 +14,7 @@ import aima.core.search.nursecsp.CSP;
 import aima.core.search.nursecsp.Constraint;
 import aima.core.search.nursecsp.Variable;
 import aima.gui.framework.EmptyEnvironmentView;
+import aima.gui.applications.search.nurse.NurseGUI;
 
 /**
  * Cooperates with a {@link CSPEnvironment} and visualizes its state.
@@ -128,6 +129,27 @@ public class CSPView extends EmptyEnvironmentView {
 			int y = (vIndex % rows) * 80 + 20;
 			return new int[]{x, y};
 		}
+	}
+	
+	protected Object[][] getSolution(){
+		// returns the solution to the NurseCSP
+		CSP csp = getCSP();
+		Object[][] solutionData = new Object[NurseGUI.numNurses][NurseGUI.period+1]; // number of days in roster + IDs
+		if (csp != null) {
+			//for (Constraint constraint : csp.getConstraints())
+				//drawConstraint(g2, constraint);
+			for (int i = 0; i < NurseGUI.numNurses; i++){
+				solutionData[i][0] = new String("Nurse" + i);
+				for(int j = 1; j < NurseGUI.period+1; j++){
+					Object value = null;
+					Assignment assignment = ((CSPEnvironment) env).getAssignment();
+					if(assignment != null)
+						value = assignment.getAssignment(getCSP().getVariables().get(i*(j-1) + (j-1)));
+					solutionData[i][j] = value;
+				}
+			}
+		}
+		return solutionData;
 	}
 	
 	protected CSP getCSP() {

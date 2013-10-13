@@ -5,6 +5,7 @@ package aima.core.search.nursecsp;
 // Description: Store data relating to individual Nurse
 // ------------------------------------------------------
 public class Nurse {
+	private int ID;
 	private String grade;
 	private int numShifts;
 	private int lastOff;
@@ -12,7 +13,8 @@ public class Nurse {
 	private String shiftPattern;	// Domain: {"D" | "N" | "DN" }
 	private String[] fixedShifts; 	// Domain: {"DAY" | "NIGHT" | "OFF" }
 	
-	public Nurse(String grade, String shiftPattern, int numShifts, int lastOff, String lastShift){
+	public Nurse(int ID, String grade, String shiftPattern, int numShifts, int lastOff, String lastShift){
+		this.ID = ID;
 		this.grade = grade;
 		this.shiftPattern = shiftPattern;
 		this.numShifts = numShifts;
@@ -20,7 +22,8 @@ public class Nurse {
 		this.lastShift = lastShift;
 	}
 	
-	public Nurse(String grade, String shiftPattern, int numShifts, int lastOff, String lastShift, String[] fixedShifts){
+	public Nurse(int ID, String grade, String shiftPattern, int numShifts, int lastOff, String lastShift, String[] fixedShifts){
+		this.ID = ID;
 		this.grade = grade;
 		this.shiftPattern = shiftPattern;
 		this.numShifts = numShifts;
@@ -30,6 +33,10 @@ public class Nurse {
 		for(int i = 0; i < fixedShifts.length; i++){
 			this.fixedShifts[i] = fixedShifts[i];
 		}
+	}
+	
+	public int getID(){
+		return this.ID;
 	}
 	
 	public String getGrade(){
