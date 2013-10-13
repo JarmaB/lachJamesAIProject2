@@ -19,6 +19,7 @@ import aima.gui.framework.MessageLogger;
 import aima.gui.framework.SimpleAgentApp;
 import aima.gui.framework.SimulationThread;
 import aima.gui.applications.search.nurse.NurseGUI;
+import aima.core.search.nursecsp.Nurse;
 
 /**
  * Application which demonstrates basic constraint algorithms based on map
@@ -30,7 +31,19 @@ import aima.gui.applications.search.nurse.NurseGUI;
  * @author Ruediger Lunde
  */
 public class NurseRosteringApp extends SimpleAgentApp {
-
+	
+	// shift types
+	public static final String DAY = "DAY";
+	public static final String NIGHT = "NIGHT";
+	public static final String OFF = "OFF";
+	// grades
+	public static final String RN = "RN";	// registered nurse
+	public static final String SRN = "SRN";	// senior registered nurse
+	//shift patterns
+	public static final String D = "D";		// day shifts only
+	public static final String N = "N";		// night shifts only
+	public static final String DN = "DN";	// day and night shifts
+	
 	/** Returns an <code>CSPView</code> instance. */
 	@Override
 	public AgentAppEnvironmentView createEnvironmentView() {
@@ -59,9 +72,25 @@ public class NurseRosteringApp extends SimpleAgentApp {
 	 */
 	public static void main(String args[]) {
 		//new NurseRosteringApp().startApplication();
+		
+		int period = 7;
+		int numSRN = 4;
+		int numNurses = 10;
+		//Nurse[] nurseArray = generateNurses(numNurses, numSRN);
 		new NurseGUI();
 	}
-
+/*
+	private static Nurse[] generateNurses(int nNurses, int nSRN){
+		Nurse[] nurseArray = new Nurse[nNurses];
+		for(int i = 0; i < nSRN; i++){					// create the required SRNs
+			nurseArray[i] = new Nurse(i, SRN, DN, 5, 0, OFF);
+		}
+		for(int i = nSRN; i < nNurses; i++){			// then the remainder RNs
+			nurseArray[i] = new Nurse(i, RN, DN, 5, 0, OFF);
+		}
+		return nurseArray;
+	}
+*/	
 	
 	// ///////////////////////////////////////////////////////////////
 	// some inner classes
@@ -127,12 +156,14 @@ public class NurseRosteringApp extends SimpleAgentApp {
 			AgentAppFrame.SelectionState selState = frame.getSelection();
 			CSP csp = null;
 			CSPView view = getCSPView();
+			int numNurses = 10;
+			Nurse[] nurseArray = new Nurse[numNurses];
 			switch (selState.getValue(NurseRosteringFrame.ENV_SEL)) {
 			case 0: // period 7days
-				csp = new NurseCSP(7);
+				csp = new NurseCSP(7, nurseArray);
 				break;
 			case 1: // period 14days
-				csp = new NurseCSP(14);
+				csp = new NurseCSP(14, nurseArray);
 				//csp.setDomain(NurseCSP.NSW, new Domain(new Object[]{NurseCSP.BLUE}));
 				break;
 			}
@@ -271,5 +302,6 @@ public class NurseRosteringApp extends SimpleAgentApp {
 				frame.setStatus("Task completed.");
 			}
 		}
+		
 	}
 }
