@@ -105,17 +105,30 @@ public class NurseCSP extends CSP {
 		// Transpose Variable Array
 		Variable[][] transNurse2D = transpose2DVarArray(nurse2D);
 		
-		// add more constraints now?
+		// Add NURSE constraints
 		for(int n = 0; n < numNurses; n++){
 			addConstraint(new MaximumShiftsConstraint(nurse2D[n], this.maxShifts)); // this Nurse can only work a maximum of maxShifts per period
+			// five shifts straight
+			addConstraint(new StraightShiftsConstraint(nurse2D[n])); // this nurse can only work five shifts without a break
+			// night shift --> day shift or off
+			addConstraint(new NightShiftsConstraint(nurse2D[n]));
+			//fixedShifts constraints
 		}
 		
+		// add DAY constraints
 		for(int day = 0; day < period; day++){
-			//addConstraint(new MinimumValueConstraint(transNurse2D[day], NIGHT, 3));
+			// minimum SRN per shift
 			addConstraint(new MinimumSRNConstraint(transNurse2D[day], DAY, MINSRN, nurseArray));	// must be at least one SRN on day shifts
 			addConstraint(new MinimumSRNConstraint(transNurse2D[day], NIGHT, MINSRN, nurseArray));	// must be at least one SRN on night shifts
+			// minimum staff per shift
+			if(day % 5 == 0 || day % 6 ==0){ // weekend --> fewer staff
+				addConstraint(new MinimumValueConstraint(transNurse2D[day], DAY, 5)); 
+				addConstraint(new MinimumValueConstraint(transNurse2D[day], NIGHT, 3));
+			} else {
+				addConstraint(new MinimumValueConstraint(transNurse2D[day], DAY, 6));
+				addConstraint(new MinimumValueConstraint(transNurse2D[day], NIGHT, 3));
+			}
 		}
-		//addConstraint(new MinimumValueConstraint(nurse2D, MINSRN));
 
 	}
 	
